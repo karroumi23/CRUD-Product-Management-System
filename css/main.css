@@ -7,10 +7,7 @@ body {
   color: #fff;
   font-family: system-ui;
 }
-.first-title{
-  background: red;
-  color: white;
-}
+
 .crud {
   width: 80%;
   margin: auto;
