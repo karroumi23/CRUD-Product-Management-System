@@ -38,7 +38,7 @@ input:focus {
   width: 20%;
 }
 #total {
-  background: red;
+  background: #0a0219;
   padding: 5px 2px;
   border-radius: 4px;
 }
