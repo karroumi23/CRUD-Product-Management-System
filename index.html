@@ -3,77 +3,125 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Learning js</title>
+    <title>Ledger — Product Management</title>
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
-
-    <div class="crud">
-      <div class="head">
-        <h2>CRUD</h2>
-        <p>PRODUCT MANAGEMENT SYSTEM</p>
-      </div>
-      <!-- -----------------------start inputs -->
-      <div class="inputs">
-        
-        <input id="title" type="text"  placeholder="title" />
-        <div class="price">
-          <input onkeyup="getTotal()" id="price" type="number" placeholder="price" />
-          <input onkeyup="getTotal()"  id="taxes" type="number" placeholder="taxes" />
-          <input onkeyup="getTotal()" id="ads" type="number" placeholder="ads" />
-          <input onkeyup="getTotal()"  id="discount" type="number" placeholder="discounte" />
-          <small  id="total"></small>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">$</span>
+          <div>
+            <h1>Ledger</h1>
+            <p>Product management system</p>
+          </div>
         </div>
+        <div class="topbar-right">
+          <div class="stat" id="stat">0 products</div>
+          <button type="button" class="theme-toggle" id="themeToggle" title="Toggle light / dark">🌙</button>
+        </div>
+      </header>
 
-        <input  id="count" type="number" placeholder="count" >
-        <input  id="category" type="text" placeholder="category" >
-        <button id="submit">Create</button>
+      <main class="layout">
+        <!-- ----------------------- entry panel ----------------------- -->
+        <section class="entry-panel">
+          <h2 class="panel-title">New entry</h2>
 
-      </div>
-      <!-- -----------------------end inputs -->
-      <!-- -----------------------start outputs -->
-      <div class="outputs">
-           <div class="searchBlock">
-              <input onkeyup="searchData(this.value)" id="search" type="text" placeholder="search" >
-              <div class="btnSearch">
-                 <button onclick="getsearchMood(this.id)" id="searchTitle">Search By Title</button>
-                 <button onclick="getsearchMood(this.id)" id="searchCategory">Search By Category</button>
+          <div class="field">
+            <label for="title">Product name</label>
+            <input id="title" type="text" placeholder="e.g. Wireless mouse" />
+          </div>
 
-              </div>
-           </div>
-           <div id="deleteAll">
+          <div class="field-grid">
+            <div class="field">
+              <label for="price">Price</label>
+              <input onkeyup="getTotal()" id="price" type="number" placeholder="0.00" />
+            </div>
+            <div class="field">
+              <label for="taxes">Taxes</label>
+              <input onkeyup="getTotal()" id="taxes" type="number" placeholder="0.00" />
+            </div>
+            <div class="field">
+              <label for="ads">Ads</label>
+              <input onkeyup="getTotal()" id="ads" type="number" placeholder="0.00" />
+            </div>
+            <div class="field">
+              <label for="discount">Discount</label>
+              <input onkeyup="getTotal()" id="discount" type="number" placeholder="0.00" />
+            </div>
+          </div>
 
-           </div>
-           <!--**********start-table*************-->
-             <table>
-                 <tr>
-                    <th>id</th>
-                    <th>title</th>
-                    <th>price</th>
-                    <th>taxes</th>
-                    <th>ads</th>
-                    <th>discount</th>
-                    <th>total</th>
-                    <th>category</th>
-                    <th>update</th>
-                    <th>delete</th>
+          <!-- signature element: live receipt tape -->
+          <div class="receipt" id="receipt">
+            <div class="receipt-row">
+              <span>Price</span><span id="rPrice">0.00</span>
+            </div>
+            <div class="receipt-row">
+              <span>+ Taxes</span><span id="rTaxes">0.00</span>
+            </div>
+            <div class="receipt-row">
+              <span>+ Ads</span><span id="rAds">0.00</span>
+            </div>
+            <div class="receipt-row">
+              <span>− Discount</span><span id="rDiscount">0.00</span>
+            </div>
+            <div class="receipt-total">
+              <span>Total</span><span id="total">0.00</span>
+            </div>
+          </div>
+
+          <div class="field-grid two">
+            <div class="field" id="countField">
+              <label for="count">Quantity</label>
+              <input id="count" type="number" placeholder="1" />
+            </div>
+            <div class="field">
+              <label for="category">Category</label>
+              <input id="category" type="text" placeholder="e.g. Electronics" />
+            </div>
+          </div>
+
+          <button id="submit">Add entry</button>
+        </section>
+
+        <!-- ----------------------- records panel ----------------------- -->
+        <section class="records-panel">
+          <div class="search-row">
+            <input onkeyup="searchData(this.value)" id="search" type="text" placeholder="Search records…" />
+            <div class="toggle-group">
+              <button class="toggle active" onclick="getsearchMood(this.id)" id="searchTitle">By title</button>
+              <button class="toggle" onclick="getsearchMood(this.id)" id="searchCategory">By category</button>
+            </div>
+          </div>
+
+          <div id="deleteAll" class="delete-all-slot"></div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Taxes</th>
+                  <th>Ads</th>
+                  <th>Discount</th>
+                  <th>Total</th>
+                  <th>Category</th>
+                  <th></th>
+                  <th></th>
                 </tr>
-
-                <tbody id="tbody">
-                     
-                </tbody>
-                
-             </table>
-           <!--**********end-table*************-->
-
-      </div> 
-     <!-- -----------------------start outputs -->
-
-
-
-
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState">
+              <p>No records yet</p>
+              <span>Add your first product using the form on the left.</span>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
-
     <script src="main.js"></script>
   </body>
 </html>

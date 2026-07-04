@@ -1,91 +1,448 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* light theme (default) */
+  --bg: #eef1ee;
+  --glow: #dce8e2;
+  --surface: #ffffff;
+  --surface-alt: #f3f5f2;
+  --border: #d7dcd6;
+  --text: #202521;
+  --text-muted: #737d76;
+  --amber: #b9781e;
+  --amber-text: #fff8ee;
+  --teal: #12876f;
+  --red: #c0432f;
+  --input-focus-bg: #ffffff;
+  --font-display: 'IBM Plex Mono', monospace;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --radius: 10px;
+}
+
+[data-theme="dark"] {
+  --bg: #14161b;
+  --glow: #1b2b28;
+  --surface: #1c1f26;
+  --surface-alt: #232730;
+  --border: #2b2f38;
+  --text: #edece7;
+  --text-muted: #8b8f99;
+  --amber: #e0a336;
+  --amber-text: #1a1200;
+  --teal: #4fd1ae;
+  --red: #e2604f;
+  --input-focus-bg: #191c22;
+}
+
 * {
   margin: 0;
   padding: 0;
-}
-body {
-  background-color: gray;
-  color: #fff;
-  font-family: system-ui;
+  box-sizing: border-box;
 }
 
-.crud {
-  width: 80%;
+body {
+  background:
+    radial-gradient(circle at 15% 0%, var(--glow) 0%, transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  padding: 32px 24px 64px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.app {
+  width: min(1100px, 100%);
   margin: auto;
 }
-.head {
-  text-align: center;
-  text-transform: uppercase;
-  margin: 10px 0;
+
+/* ----------------------------------------- topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-/*----------------------------------------- start inputs  */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--amber);
+}
+
+.brand h1 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.brand p {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 2px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--teal);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 20px;
+}
+
+.theme-toggle {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.theme-toggle:hover {
+  filter: none;
+  border-color: var(--amber);
+}
+
+/* ----------------------------------------- layout */
+.layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----------------------------------------- entry panel */
+.entry-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  position: sticky;
+  top: 24px;
+}
+
+@media (max-width: 880px) {
+  .entry-panel {
+    position: static;
+  }
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.field label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.field-grid.two {
+  grid-template-columns: 1fr 1fr;
+}
+
 input {
   width: 100%;
-  height: 30px;
+  height: 38px;
   outline: none;
-  border: none;
-  background: #111;
-  margin: 4px 0;
-  border-radius: 4px;
-  padding: 4px;
-  color: #fff;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  border-radius: 8px;
+  padding: 0 10px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
+
+input::placeholder {
+  color: #565b66;
+}
+
 input:focus {
-  background: #000;
-  transform: scale(1.1);
+  background: var(--input-focus-bg);
+  border-color: var(--amber);
 }
-.price input {
-  width: 20%;
-}
-#total {
-  background: #0a0219;
-  padding: 5px 2px;
-  border-radius: 4px;
-}
-#total::before {
-  content: "total:";
-}
+
 button {
   width: 100%;
-  height: 30px;
+  height: 40px;
   border: none;
   cursor: pointer;
-  background: #370044;
-  color: #fff;
-  border-radius: 20px;
-  transition: 0.5s;
+  background: var(--amber);
+  color: var(--amber-text);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
+
 button:hover {
-  background: #51045f;
-  letter-spacing: 1px;
+  filter: brightness(1.1);
 }
-/*----------------------------------------- end  inputs  */
-/* ----------------------------------------start outputs */
-.btnSearch {
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* ----------------------------------------- receipt (signature element) */
+.receipt {
+  position: relative;
+  background: var(--surface-alt);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 14px 14px 18px;
+  margin: 16px 0 22px;
+  font-family: var(--font-display);
+}
+
+.receipt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 8px;
+  background:
+    linear-gradient(-45deg, var(--bg) 4px, transparent 0),
+    linear-gradient(45deg, var(--bg) 4px, transparent 0);
+  background-size: 8px 8px;
+  background-repeat: repeat-x;
+}
+
+.receipt-row {
   display: flex;
   justify-content: space-between;
-}
-.btnSearch button {
-  width: 45%;
-}
-#deleteAll {
-  margin: 20px 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 3px 0;
 }
 
-/* **********start-table****** */
+.receipt-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--red);
+  transition: color 0.2s ease;
+}
+
+.receipt.valid .receipt-total {
+  color: var(--teal);
+}
+
+/* ----------------------------------------- records panel */
+.records-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.search-row #search {
+  flex: 1 1 200px;
+}
+
+.toggle-group {
+  display: flex;
+  gap: 6px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.toggle {
+  width: auto;
+  height: 32px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.toggle:hover {
+  background: transparent;
+  color: var(--text);
+}
+
+.toggle.active {
+  background: var(--surface);
+  color: var(--amber);
+}
+
+.delete-all-slot button {
+  width: auto;
+  height: 32px;
+  padding: 0 14px;
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.delete-all-slot button:hover {
+  background: rgba(226, 96, 79, 0.1);
+}
+
+/* ----------------------------------------- table */
+.table-wrap {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
-  text-align: center;
-  margin: 10px 0;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 720px;
 }
-table th {
+
+thead th {
+  text-align: left;
   text-transform: uppercase;
-}
-th,
-td {
-  padding: 5px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
 }
 
-/* **********end-table******** */
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-display);
+  white-space: nowrap;
+}
 
-/* ----------------------------------------end outputs */
+tbody tr:hover {
+  background: var(--surface-alt);
+}
+
+.btn-update,
+.btn-delete {
+  width: auto;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-family: var(--font-body);
+  border-radius: 6px;
+}
+
+.btn-update {
+  background: transparent;
+  border: 1px solid var(--teal);
+  color: var(--teal);
+}
+
+.btn-update:hover {
+  background: rgba(79, 209, 174, 0.1);
+}
+
+.btn-delete {
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+}
+
+.btn-delete:hover {
+  background: rgba(226, 96, 79, 0.1);
+}
+
+/* ----------------------------------------- empty state */
+.empty-state {
+  display: none;
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text-muted);
+}
+
+.empty-state p {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.empty-state span {
+  font-size: 13px;
+}
+
+.table-wrap.empty table {
+  display: none;
+}
+
+.table-wrap.empty .empty-state {
+  display: block;
+}
